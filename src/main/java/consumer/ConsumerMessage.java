@@ -1,5 +1,6 @@
 package consumer;
 
+import Model.Note;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
@@ -8,7 +9,7 @@ import com.rabbitmq.client.DeliverCallback;
 import java.nio.charset.StandardCharsets;
 
 public class ConsumerMessage {
-    private final static String QUEUE_NAME = "DevTest-Queue1";
+    private final static String QUEUE_NAME = "DevTest-Queue";
 
     public static void main(String[] argv) throws Exception {
         ConnectionFactory factory = new ConnectionFactory();
@@ -20,8 +21,9 @@ public class ConsumerMessage {
         System.out.println(" [*] Waiting for messages. To exit press CTRL+C");
 
         DeliverCallback deliverCallback = (consumerTag, delivery) -> {
-            String message = new String(delivery.getBody(), StandardCharsets.UTF_8);
-            System.out.println(" [x] Received '" + message + "'");
+            //String message = new String(delivery.getBody(), StandardCharsets.UTF_8);
+            Note note = Note.byteToNote(delivery.getBody());
+            System.out.println(" [x] Received '" + note + "'");
         };
         channel.basicConsume(QUEUE_NAME, true, deliverCallback, consumerTag -> { });
     }
