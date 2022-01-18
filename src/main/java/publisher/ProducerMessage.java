@@ -10,7 +10,9 @@ public class ProducerMessage {
     private final static String QUEUE_NAME="DevTest-Queue";
 
     public static void main(String[] args) {
-        sendMessage(new Note("Max", 180));
+
+        for(int i=0;i<1000000;i++) sendMessage(new Note("Max"+(1000000-i), i));
+
     }
 
     public static void sendMessage(Note message){
